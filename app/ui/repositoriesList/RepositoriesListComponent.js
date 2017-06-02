@@ -84,15 +84,18 @@ export default class RepositoriesListComponent extends Component {
         return (
             <TouchableHighlight
                 underlayColor='#dddddd'>
-                <View style={styles.userRootContainer}>
-                    <Image
-                        style={styles.avatar}
-                        source={{uri: userData.avatar_url}}
-                    />
-                    <View/>
-                    <View style={styles.userDescriptionContainer}>
-                        <Text style={styles.userLogin}>{userData.login}</Text>
+                <View>
+                    <View style={styles.userRootContainer}>
+                        <Image
+                            style={styles.avatar}
+                            source={{uri: userData.avatar_url}}
+                        />
+                        <View/>
+                        <View style={styles.userDescriptionContainer}>
+                            <Text style={styles.userLogin}>{userData.login}</Text>
+                        </View>
                     </View>
+                    <View style={styles.border}/>
                 </View>
             </TouchableHighlight>
         );
@@ -132,14 +135,14 @@ export default class RepositoriesListComponent extends Component {
             isLoading:false,
             isErrorViewShown:true
         });
-        console.log("Error" + error);
+        console.log(error);
     }
 
 }
 
 const styles = StyleSheet.create({
     description: {
-        marginBottom: 20,
+        marginBottom: 16,
         fontSize: 18,
         textAlign: 'center',
         color: '#656565'
@@ -150,7 +153,7 @@ const styles = StyleSheet.create({
         color: '#FF0000'
     },
     container: {
-        padding: 30,
+        padding: 16,
         marginTop: 65,
         flex: 1
     },
@@ -215,5 +218,11 @@ const styles = StyleSheet.create({
         color: '#000000',
         fontWeight: 'bold',
         fontStyle: 'italic'
+    },
+    border: {
+        height: 1,
+        backgroundColor: "#C4C4C4",
+        marginLeft: 10,
+        marginTop: 10
     }
 });
