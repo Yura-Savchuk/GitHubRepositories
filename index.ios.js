@@ -6,6 +6,6 @@
 
 import React from 'react';
 import {AppRegistry} from 'react-native';
-import GitHubRepositoriesApp from './app/GitHubRepositoriesApp'
+import AppStack from './app/AppStack'
 
-AppRegistry.registerComponent('GitHubRepositories', () => GitHubRepositoriesApp);
+AppRegistry.registerComponent('GitHubRepositories', () => AppStack);

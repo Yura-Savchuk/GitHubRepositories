@@ -7,11 +7,19 @@ import {
     TouchableHighlight,
     Image,
     ActivityIndicator,
-    ListView
+    ListView,
+    Button
 } from 'react-native'
 import UsersListService from '../../data/UsersListService'
 
 export default class RepositoriesListComponent extends Component {
+
+    static navigationOptions = {
+        title: 'GitHub Repositories',
+        headerStyle: {
+            backgroundColor: "#FFFFFF"
+        }
+    };
 
     constructor(props) {
         super(props);
@@ -33,23 +41,23 @@ export default class RepositoriesListComponent extends Component {
         let activityIndicator = this.state.isLoading ?
             (<ActivityIndicator
                 size='large'/>) :
-            (<View/>);
+            null;
         let logo = this.state.isLogoShown ?
             (<Image style={styles.image}
                      source={{uri: 'https://assets-cdn.github.com/images/modules/logos_page/GitHub-Logo.png'}}/>) :
-            (<View/>);
+            null;
         let emptyView = this.state.isEmptyViewShown ?
             (<Text style={styles.description}>Пользователей не найдено.</Text>) :
-            (<View/>);
+            null;
         let errorView = this.state.isErrorViewShown ?
-            (<Text style={styles.erorrText}>Ошибка загрузки списка пользователей.</Text>) :
-            (<View/>);
+            (<Text style={styles.errorText}>Ошибка загрузки списка пользователей.</Text>) :
+            null;
         let usersListView = this.state.isUsersListShown ?
             (<ListView
                 style={styles.listView}
                 dataSource={this.state.dataSource}
                 renderRow={this.renderRow.bind(this)}/>) :
-            (<View/>);
+            null;
         return (
             <View style={styles.container}>
                 <Text style={styles.description}>
@@ -145,8 +153,8 @@ const styles = StyleSheet.create({
         marginBottom: 16,
         fontSize: 18,
         textAlign: 'center',
-        color: '#656565'
-    },erorrText: {
+        color: '#656565',
+    },errorText: {
         marginBottom: 20,
         fontSize: 18,
         textAlign: 'center',
@@ -154,8 +162,8 @@ const styles = StyleSheet.create({
     },
     container: {
         padding: 16,
-        marginTop: 65,
-        flex: 1
+        flex: 1,
+        backgroundColor: "#FFFFFF"
     },
     flowRight: {
         flexDirection: 'row',
