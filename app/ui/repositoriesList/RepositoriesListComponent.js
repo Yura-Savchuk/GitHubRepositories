@@ -38,21 +38,21 @@ export default class RepositoriesListComponent extends Component {
     }
 
     render() {
-        let activityIndicator = this.state.isLoading ?
+        const activityIndicator = this.state.isLoading ?
             (<ActivityIndicator
                 size='large'/>) :
             null;
-        let logo = this.state.isLogoShown ?
+        const logo = this.state.isLogoShown ?
             (<Image style={styles.image}
                      source={{uri: 'https://assets-cdn.github.com/images/modules/logos_page/GitHub-Logo.png'}}/>) :
             null;
-        let emptyView = this.state.isEmptyViewShown ?
+        const emptyView = this.state.isEmptyViewShown ?
             (<Text style={styles.description}>Пользователей не найдено.</Text>) :
             null;
-        let errorView = this.state.isErrorViewShown ?
+        const errorView = this.state.isErrorViewShown ?
             (<Text style={styles.errorText}>Ошибка загрузки списка пользователей.</Text>) :
             null;
-        let usersListView = this.state.isUsersListShown ?
+        const usersListView = this.state.isUsersListShown ?
             (<ListView
                 style={styles.listView}
                 dataSource={this.state.dataSource}
