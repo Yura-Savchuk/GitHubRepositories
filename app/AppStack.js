@@ -3,7 +3,7 @@
 import {
     StackNavigator,
 } from 'react-navigation';
-import RepositoriesListComponent from './ui/repositoriesList/RepositoriesListComponent'
+import RepositoriesListComponent from './ui/usersList/UsersListContainer'
 
 const AppStack = StackNavigator({
     RepositoriesList: {screen: RepositoriesListComponent}
