@@ -1,15 +1,17 @@
+'use strict';
 import React, {Component} from 'react'
 import {
     View,
     Text,
     TextInput,
     TouchableHighlight,
-    Image,
-    ActivityIndicator
+    Image
 } from 'react-native'
 import UsersListService from '../../data/UsersListService'
 import styles from '../../styles/styles'
 import UsersList from './UsersList'
+import ActivityIndicator from '../../components/ActivityIndicator'
+import GitHubLogo from '../../components/GitHubLogo'
 
 export default class UsersListContainer extends Component {
 
@@ -32,14 +34,6 @@ export default class UsersListContainer extends Component {
     }
 
     render() {
-        const activityIndicator = this.state.isLoading ?
-            (<ActivityIndicator
-                size='large'/>) :
-            null;
-        const logo = this.state.isLogoShown ?
-            (<Image style={styles.image}
-                     source={{uri: 'https://assets-cdn.github.com/images/modules/logos_page/GitHub-Logo.png'}}/>) :
-            null;
         return (
             <View style={styles.container}>
                 <Text style={styles.description}>
@@ -61,8 +55,8 @@ export default class UsersListContainer extends Component {
                         <Text style={styles.buttonText}>Go</Text>
                     </TouchableHighlight>
                 </View>
-                {logo}
-                {activityIndicator}
+                <ActivityIndicator shown={this.state.isLoading}/>
+                <GitHubLogo shown={this.state.isLogoShown}/>
                 {this.renderUsersList()}
             </View>
         )
@@ -85,7 +79,7 @@ export default class UsersListContainer extends Component {
 
         return <UsersList
                     items={this.state.users}
-                    onPressItem={this.openUser.bind(this)}/>
+                    onPressItem={this.onPressUserItem.bind(this)}/>
     }
 
     //actions
@@ -122,7 +116,7 @@ export default class UsersListContainer extends Component {
         console.log(error);
     }
 
-    openUser(rowData, rowID) {
+    onPressUserItem(rowData, rowID) {
         console.log(this);
         alert("Press on user: " + rowData.login);
     }
