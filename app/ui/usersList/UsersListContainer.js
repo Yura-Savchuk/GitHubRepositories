@@ -5,11 +5,11 @@ import {
     TextInput,
     TouchableHighlight,
     Image,
-    ActivityIndicator,
-    ListView
+    ActivityIndicator
 } from 'react-native'
 import UsersListService from '../../data/UsersListService'
 import styles from '../../styles/styles'
+import UsersList from './UsersList'
 
 export default class UsersListContainer extends Component {
 
@@ -22,17 +22,12 @@ export default class UsersListContainer extends Component {
 
     constructor(props) {
         super(props);
-        let dataSource = new ListView.DataSource({
-            rowHasChanged: (r1, r2) => r1.id !== r2.id
-        });
         this.state = {
             searchNickName: '',
             isLoading: false,
             isLogoShown: true,
-            isEmptyViewShown: false,
             isErrorViewShown: false,
-            isUsersListShown: false,
-            dataSource: dataSource
+            users: null
         };
     }
 
@@ -44,18 +39,6 @@ export default class UsersListContainer extends Component {
         const logo = this.state.isLogoShown ?
             (<Image style={styles.image}
                      source={{uri: 'https://assets-cdn.github.com/images/modules/logos_page/GitHub-Logo.png'}}/>) :
-            null;
-        const emptyView = this.state.isEmptyViewShown ?
-            (<Text style={styles.description}>Пользователей не найдено.</Text>) :
-            null;
-        const errorView = this.state.isErrorViewShown ?
-            (<Text style={styles.errorText}>Ошибка загрузки списка пользователей.</Text>) :
-            null;
-        const usersListView = this.state.isUsersListShown ?
-            (<ListView
-                style={styles.listView}
-                dataSource={this.state.dataSource}
-                renderRow={this.renderRow.bind(this)}/>) :
             null;
         return (
             <View style={styles.container}>
@@ -80,32 +63,29 @@ export default class UsersListContainer extends Component {
                 </View>
                 {logo}
                 {activityIndicator}
-                {emptyView}
-                {errorView}
-                {usersListView}
+                {this.renderUsersList()}
             </View>
         )
     }
 
-    renderRow(userData, sectionID, rowID) {
-        return (
-            <TouchableHighlight
-                underlayColor='#dddddd'>
-                <View>
-                    <View style={styles.userRootContainer}>
-                        <Image
-                            style={styles.avatar}
-                            source={{uri: userData.avatar_url}}
-                        />
-                        <View/>
-                        <View style={styles.userDescriptionContainer}>
-                            <Text style={styles.userLogin}>{userData.login}</Text>
-                        </View>
-                    </View>
-                    <View style={styles.border}/>
-                </View>
-            </TouchableHighlight>
-        );
+    renderUsersList() {
+        const users = this.state.users;
+        const usersListEmpty = users === null || users.length === 0;
+        if (this.state.isLogoShown || (this.state.isLoading && usersListEmpty)) {
+            return null
+        }
+
+        if (this.state.isErrorViewShown) {
+            return <Text style={styles.errorText}>Ошибка загрузки списка пользователей.</Text>
+        }
+
+        if (usersListEmpty) {
+            return <Text style={styles.description}>Пользователей не найдено.</Text>
+        }
+
+        return <UsersList
+                    items={this.state.users}
+                    onPressItem={this.openUser.bind(this)}/>
     }
 
     //actions
@@ -128,12 +108,9 @@ export default class UsersListContainer extends Component {
     }
 
     handleResponse(items) {
-        let itemsExist = items.length !== 0;
         this.setState({
             isLoading: false,
-            isEmptyViewShown: !itemsExist,
-            dataSource: this.state.dataSource.cloneWithRows(items),
-            isUsersListShown: itemsExist
+            users: items
         });
     }
 
@@ -143,6 +120,11 @@ export default class UsersListContainer extends Component {
             isErrorViewShown:true
         });
         console.log(error);
+    }
+
+    openUser(rowData, rowID) {
+        console.log(this);
+        alert("Press on user: " + rowData.login);
     }
 
 }
