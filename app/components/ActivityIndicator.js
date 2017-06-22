@@ -1,14 +1,47 @@
 'use strict';
 import React, {Component} from 'react'
-import {ActivityIndicator} from 'react-native'
+import {
+    ActivityIndicator,
+    View,
+    StyleSheet
+} from 'react-native'
 
 export default class _ActivityIndicator extends Component {
 
     render() {
-        if (!this.props.shown) return null;
-        return <ActivityIndicator
-            size='large'
-        />
+        const props = this.props;
+        if (!props.shown) return null;
+        if (props.hideContent) {
+            return _ActivityIndicator.renderHideContentIndicator();
+        }
+        return _ActivityIndicator.renderIndicator();
+    }
+
+    static renderHideContentIndicator() {
+        return (
+            <View style={componentStyles.container}>
+                {_ActivityIndicator.renderIndicator()}
+            </View>
+        );
+    }
+
+    static renderIndicator() {
+        return (
+            <ActivityIndicator
+                size='large'
+            />
+        );
     }
 
 }
+
+const componentStyles = StyleSheet.create({
+    container: {
+        width: '100%',
+        height: '100%',
+        justifyContent: 'center',
+        backgroundColor: '#ffffff',
+        alignSelf: 'center',
+        position: 'absolute'
+    }
+});

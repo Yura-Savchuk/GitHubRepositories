@@ -19,7 +19,7 @@ export default class UserListItem extends Component {
                 <View>
                     <View style={styles.userRootContainer}>
                         <Image
-                            style={styles.avatar}
+                            style={styles.avatarSmall}
                             source={{uri: item.avatar_url}}
                         />
                         <View/>

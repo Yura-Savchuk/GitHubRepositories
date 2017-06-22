@@ -4,8 +4,7 @@ import {
     View,
     Text,
     TextInput,
-    TouchableHighlight,
-    Image
+    TouchableHighlight
 } from 'react-native'
 import UsersListService from '../../data/UsersListService'
 import styles from '../../styles/styles'
@@ -24,8 +23,8 @@ export default class UsersListContainer extends Component {
 
     constructor(props) {
         super(props);
+        this.searchNickName = '';
         this.state = {
-            searchNickName: '',
             isLoading: false,
             isLogoShown: true,
             isErrorViewShown: false,
@@ -44,7 +43,6 @@ export default class UsersListContainer extends Component {
                 </Text>
                 <View style={styles.flowRight}>
                     <TextInput
-                        value={this.state.searchNickName}
                         style={styles.searchInput}
                         placeholder='Search via nickname'
                         onChange={(event) => this.onSearchTextChanged(event)}
@@ -85,18 +83,16 @@ export default class UsersListContainer extends Component {
     //actions
 
     onSearchTextChanged(event) {
-        this.setState({ searchNickName: event.nativeEvent.text});
+        this.searchNickName = event.nativeEvent.text;
     }
 
     onSearchButtonPressed() {
         this.setState({
             isLoading: true,
             isLogoShown: false,
-            isErrorViewShown: false,
-            isEmptyViewShown: false,
-            isUsersListShown: false
+            isErrorViewShown: false
         });
-        UsersListService.getUsersByQuery(this.state.searchNickName)
+        UsersListService.getUsersByQuery(this.searchNickName)
             .then(items => this.handleResponse(items))
             .catch(error => this.handleError(error));
     }
@@ -117,8 +113,8 @@ export default class UsersListContainer extends Component {
     }
 
     onPressUserItem(rowData, rowID) {
-        console.log(this);
-        alert("Press on user: " + rowData.login);
+        const { navigate } = this.props.navigation;
+        navigate('UserDetail', { user: rowData })
     }
 
 }

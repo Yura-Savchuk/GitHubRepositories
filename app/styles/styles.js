@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
     },
     listView: {
     },
-    avatar: {
+    avatarSmall: {
         width: 60,
         height: 60,
         borderRadius: 30
